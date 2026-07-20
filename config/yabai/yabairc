@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+
+#
+# Window management
+#
+
+# Keep every Space unmanaged by default. Windows are only moved or resized
+# through the explicit shortcuts in ~/.skhdrc.
+YABAI="$HOME/.local/bin/yabai"
+
+"$YABAI" -m config layout float
+"$YABAI" -m config window_animation_duration 0.0
+
+#
+# Focus
+#
+
+"$YABAI" -m config focus_follows_mouse off
+"$YABAI" -m config mouse_follows_focus off
+
+#
+# Appearance
+#
+
+"$YABAI" -m config window_gap 0
+"$YABAI" -m config top_padding 0
+"$YABAI" -m config bottom_padding 0
+"$YABAI" -m config left_padding 0
+"$YABAI" -m config right_padding 0
+
+#
+# Mouse actions
+#
+
+"$YABAI" -m config mouse_modifier fn
+"$YABAI" -m config mouse_action1 move
+"$YABAI" -m config mouse_action2 resize
+
+#

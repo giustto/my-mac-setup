@@ -1,0 +1,82 @@
+#
+# Window positioning
+#
+
+ctrl + alt - left  : $HOME/.local/bin/yabai -m window --grid 1:2:0:0:1:1
+ctrl + alt - right : $HOME/.local/bin/yabai -m window --grid 1:2:1:0:1:1
+ctrl + alt - up    : $HOME/.local/bin/yabai -m window --grid 2:1:0:0:1:1
+ctrl + alt - down  : $HOME/.local/bin/yabai -m window --grid 2:1:0:1:1:1
+
+#
+# Window quarters (number row, no numeric keypad required)
+#
+
+alt - 7 : $HOME/.local/bin/yabai -m window --grid 2:2:0:0:1:1
+alt - 9 : $HOME/.local/bin/yabai -m window --grid 2:2:1:0:1:1
+alt - 1 : $HOME/.local/bin/yabai -m window --grid 2:2:0:1:1:1
+alt - 3 : $HOME/.local/bin/yabai -m window --grid 2:2:1:1:1:1
+
+#
+# Center window
+#
+
+alt - c : w="$($HOME/.local/bin/yabai -m query --windows --window)"; \
+          d="$($HOME/.local/bin/yabai -m query --displays --display)"; \
+          dcx="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.x + (.frame.w / 2)')"; \
+          dcy="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.y + (.frame.h / 2)')"; \
+          u="$($HOME/.local/bin/visible-frame "$dcx" "$dcy")"; \
+          wid="$(printf '%s' "$w" | $HOME/.local/bin/jq -r '.id')"; \
+          x="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.x + (($u.w - $w.frame.w) / 2) | floor')"; \
+          y="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.y + (($u.h - $w.frame.h) / 2) | floor')"; \
+          $HOME/.local/bin/yabai -m window "$wid" --move abs:"$x":"$y"
+
+#
+# Toggle native fullscreen (works with floating windows)
+#
+
+alt - return : $HOME/.local/bin/yabai -m window --toggle native-fullscreen
+
+#
+# Focus spaces
+#
+
+alt - j : $HOME/.local/bin/yabai -m space --focus prev && $HOME/.local/bin/yabai -m window --focus first
+alt - k : $HOME/.local/bin/yabai -m space --focus next && $HOME/.local/bin/yabai -m window --focus first
+
+#
+# Send window to previous / next space
+# Requires the yabai scripting addition (partial SIP disable).
+#
+
+alt + shift - h : $HOME/.local/bin/yabai -m window --space prev
+alt + shift - l : $HOME/.local/bin/yabai -m window --space next
+
+#
+# Send window to previous / next display
+#
+
+alt + shift - left  : w="$($HOME/.local/bin/yabai -m query --windows --window)"; \
+                      d="$($HOME/.local/bin/yabai -m query --displays --display prev)"; \
+                      dcx="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.x + (.frame.w / 2)')"; \
+                      dcy="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.y + (.frame.h / 2)')"; \
+                      u="$($HOME/.local/bin/visible-frame "$dcx" "$dcy")"; \
+                      wid="$(printf '%s' "$w" | $HOME/.local/bin/jq -r '.id')"; \
+                      x="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.x + (($u.w - $w.frame.w) / 2) | floor')"; \
+                      y="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.y + (($u.h - $w.frame.h) / 2) | floor')"; \
+                      $HOME/.local/bin/yabai -m window "$wid" --move abs:"$x":"$y"; \
+                      mx="$($HOME/.local/bin/jq -nr --argjson w "$w" --arg x "$x" '$x|tonumber + ($w.frame.w / 2) | floor')"; \
+                      my="$($HOME/.local/bin/jq -nr --argjson w "$w" --arg y "$y" '$y|tonumber + ($w.frame.h / 2) | floor')"; \
+                      $HOME/.local/bin/cursor-warp "$mx" "$my"
+
+alt + shift - right : w="$($HOME/.local/bin/yabai -m query --windows --window)"; \
+                      d="$($HOME/.local/bin/yabai -m query --displays --display next)"; \
+                      dcx="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.x + (.frame.w / 2)')"; \
+                      dcy="$(printf '%s' "$d" | $HOME/.local/bin/jq -r '.frame.y + (.frame.h / 2)')"; \
+                      u="$($HOME/.local/bin/visible-frame "$dcx" "$dcy")"; \
+                      wid="$(printf '%s' "$w" | $HOME/.local/bin/jq -r '.id')"; \
+                      x="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.x + (($u.w - $w.frame.w) / 2) | floor')"; \
+                      y="$($HOME/.local/bin/jq -nr --argjson w "$w" --argjson u "$u" '$u.y + (($u.h - $w.frame.h) / 2) | floor')"; \
+                      $HOME/.local/bin/yabai -m window "$wid" --move abs:"$x":"$y"; \
+                      mx="$($HOME/.local/bin/jq -nr --argjson w "$w" --arg x "$x" '$x|tonumber + ($w.frame.w / 2) | floor')"; \
+                      my="$($HOME/.local/bin/jq -nr --argjson w "$w" --arg y "$y" '$y|tonumber + ($w.frame.h / 2) | floor')"; \
+                      $HOME/.local/bin/cursor-warp "$mx" "$my"
