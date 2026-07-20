@@ -23,7 +23,7 @@ check_path() {
 }
 
 printf 'Commands\n'
-for command_name in brew yabai skhd jq fzf zoxide lazygit yazi; do
+for command_name in brew yabai skhd jq fzf zoxide lazygit tmux yazi; do
   check_command "$command_name"
 done
 
@@ -31,6 +31,11 @@ printf '\nConfiguration\n'
 check_path "$HOME/.zshenv"
 check_path "$HOME/.config/zsh/.zshrc"
 check_path "$HOME/.config/zsh/.p10k.zsh"
+check_path "$HOME/.config/tmux/tmux.conf"
+check_path "$HOME/.config/yazi/init.lua"
+check_path "$HOME/.config/yazi/package.toml"
+check_path "$HOME/.config/yazi/plugins/no-status.yazi/main.lua"
+check_path "$HOME/Library/Application Support/lazygit/config.yml"
 check_path "$HOME/.yabairc"
 check_path "$HOME/.skhdrc"
 check_path "$HOME/.local/bin/visible-frame"

@@ -101,6 +101,13 @@ backup_and_link "$REPO_DIR/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
 backup_and_link "$REPO_DIR/config/zsh/.zshrc" "$HOME/.config/zsh/.zshrc"
 backup_and_link "$REPO_DIR/config/zsh/.p10k.zsh" "$HOME/.config/zsh/.p10k.zsh"
 backup_and_link "$REPO_DIR/config/zsh/.zshenv" "$HOME/.zshenv"
+backup_and_link "$REPO_DIR/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+backup_and_link "$REPO_DIR/config/yazi/init.lua" "$HOME/.config/yazi/init.lua"
+backup_and_link "$REPO_DIR/config/yazi/package.toml" "$HOME/.config/yazi/package.toml"
+backup_and_link "$REPO_DIR/config/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+
+log "Installing Yazi plugins"
+ya pkg install
 
 # Depending on the installed version, the Homebrew LaunchAgents may still look
 # only at the legacy paths in the home directory.

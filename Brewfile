@@ -5,6 +5,7 @@ brew "jq"
 brew "koekeishiya/formulae/skhd"
 brew "koekeishiya/formulae/yabai"
 brew "lazygit"
+brew "tmux"
 brew "yazi"
 brew "zoxide"
 

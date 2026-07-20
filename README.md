@@ -26,6 +26,8 @@ installer. Let it finish, then run `./install.sh` once more.
   fzf-tab, and Zinit
 - **lazygit** for working with Git without remembering every command
 - **yazi** for quick file browsing from the terminal
+- **tmux** with mouse support, Vim-style pane navigation, and a light/dark-safe
+  Ghostty-friendly status line
 - **fzf, zoxide, and jq** for the small things that make terminal work nicer
 - Two tiny native helpers that keep windows inside the usable screen area and
   move the cursor along with a window
@@ -126,6 +128,21 @@ the optional macOS preference scripts in `macos/`.
 The installer links the configs into `~/.config`, so editing a file in this repo
 changes the active setup. It also creates `~/.yabairc` and `~/.skhdrc` links for
 Homebrew LaunchAgent versions that still expect the older paths.
+
+Yazi's official `no-status` plugin is installed from `package.toml`, removing
+the file metadata row at the bottom. Lazygit's config is linked to its macOS
+path under `~/Library/Application Support/lazygit/`.
+
+### tmux shortcuts
+
+| Shortcut | What it does |
+| --- | --- |
+| `^`, then `v` | Split vertically (side by side) |
+| `^`, then `s` | Split horizontally (stacked) |
+| `^`, then `h/j/k/l` | Move between panes |
+| `^`, then `H/J/K/L` | Resize panes |
+| `^`, then `b` | Toggle the tmux status line |
+| `^`, then `r` | Reload the tmux config |
 
 Compiled helpers end up in `~/.local/bin`:
 
