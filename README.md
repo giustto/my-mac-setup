@@ -3,9 +3,9 @@
 A small, opinionated setup for making a fresh Mac feel like mine again.
 
 It gives me a keyboard-driven floating window manager, a comfortable shell,
-and a handful of terminal tools I use every day. Everything lives in this repo,
-so moving to a new Mac is mostly a matter of running one script and granting one
-macOS permission.
+and a handful of terminal tools I use every day. The repo contains the source
+configs, and the installer copies them to their normal locations so the clone
+can be deleted afterwards.
 
 ## Quick start
 
@@ -28,6 +28,7 @@ installer. Let it finish, then run `./install.sh` once more.
 - **yazi** for quick file browsing from the terminal
 - **tmux** with mouse support, Vim-style pane navigation, and a light/dark-safe
   Ghostty-friendly status line
+- **Ghostty** with a custom light/dark neon theme and JetBrains Mono Nerd Font
 - **fzf, zoxide, and jq** for the small things that make terminal work nicer
 - Two tiny native helpers that keep windows inside the usable screen area and
   move the cursor along with a window
@@ -125,12 +126,17 @@ Space-moving support, follow the upstream
 The configs are kept in `config/`, the native helper sources in `helpers/`, and
 the optional macOS preference scripts in `macos/`.
 
-The installer links the configs into `~/.config`, so editing a file in this repo
-changes the active setup. It also creates `~/.yabairc` and `~/.skhdrc` links for
-Homebrew LaunchAgent versions that still expect the older paths.
+The installer copies the configs into `~/.config` (plus the platform-specific
+locations noted below). Nothing in the installed setup points back to this
+repo, so the clone can be moved or deleted after installation. Run the
+installer again whenever you want to copy newer versions of the configs.
+
+Ghostty's config and custom themes are copied into `~/.config/ghostty`.
+The installer also copies `~/.yabairc` and `~/.skhdrc` for Homebrew LaunchAgent
+versions that still expect the older paths.
 
 Yazi's official `no-status` plugin is installed from `package.toml`, removing
-the file metadata row at the bottom. Lazygit's config is linked to its macOS
+the file metadata row at the bottom. Lazygit's config is copied to its macOS
 path under `~/Library/Application Support/lazygit/`.
 
 ### tmux shortcuts
@@ -157,7 +163,7 @@ git pull
 ./install.sh
 ```
 
-Running the installer again is expected. Files already linked correctly are
+Running the installer again is expected. Files that already match the repo are
 left alone.
 
 ## Something not working?

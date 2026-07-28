@@ -18,15 +18,15 @@ log() {
   printf '\n==> %s\n' "$1"
 }
 
-backup_and_link() {
+backup_and_copy() {
   local source="$1"
   local target="$2"
   local relative_target
 
   mkdir -p "$(dirname "$target")"
 
-  if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
-    printf 'Already linked: %s\n' "$target"
+  if [[ -f "$target" && ! -L "$target" ]] && cmp -s "$source" "$target"; then
+    printf 'Already installed: %s\n' "$target"
     return
   fi
 
@@ -49,8 +49,8 @@ backup_and_link() {
     fi
   fi
 
-  ln -s "$source" "$target"
-  printf 'Linked: %s -> %s\n' "$target" "$source"
+  cp -p "$source" "$target"
+  printf 'Installed: %s\n' "$target"
 }
 
 log "Checking Xcode Command Line Tools"
@@ -95,24 +95,27 @@ case "$BACKUP_EXISTING_CONFIGS" in
   *) echo "BACKUP_EXISTING_CONFIGS must be 'yes' or 'no'." >&2; exit 2 ;;
 esac
 
-log "Linking configuration files"
-backup_and_link "$REPO_DIR/config/yabai/yabairc" "$HOME/.config/yabai/yabairc"
-backup_and_link "$REPO_DIR/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
-backup_and_link "$REPO_DIR/config/zsh/.zshrc" "$HOME/.config/zsh/.zshrc"
-backup_and_link "$REPO_DIR/config/zsh/.p10k.zsh" "$HOME/.config/zsh/.p10k.zsh"
-backup_and_link "$REPO_DIR/config/zsh/.zshenv" "$HOME/.zshenv"
-backup_and_link "$REPO_DIR/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
-backup_and_link "$REPO_DIR/config/yazi/init.lua" "$HOME/.config/yazi/init.lua"
-backup_and_link "$REPO_DIR/config/yazi/package.toml" "$HOME/.config/yazi/package.toml"
-backup_and_link "$REPO_DIR/config/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+log "Installing configuration files"
+backup_and_copy "$REPO_DIR/config/yabai/yabairc" "$HOME/.config/yabai/yabairc"
+backup_and_copy "$REPO_DIR/config/skhd/skhdrc" "$HOME/.config/skhd/skhdrc"
+backup_and_copy "$REPO_DIR/config/zsh/.zshrc" "$HOME/.config/zsh/.zshrc"
+backup_and_copy "$REPO_DIR/config/zsh/.p10k.zsh" "$HOME/.config/zsh/.p10k.zsh"
+backup_and_copy "$REPO_DIR/config/zsh/.zshenv" "$HOME/.zshenv"
+backup_and_copy "$REPO_DIR/config/tmux/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+backup_and_copy "$REPO_DIR/config/yazi/init.lua" "$HOME/.config/yazi/init.lua"
+backup_and_copy "$REPO_DIR/config/yazi/package.toml" "$HOME/.config/yazi/package.toml"
+backup_and_copy "$REPO_DIR/config/ghostty/config.ghostty" "$HOME/.config/ghostty/config.ghostty"
+backup_and_copy "$REPO_DIR/config/ghostty/themes/neon-dark" "$HOME/.config/ghostty/themes/neon-dark"
+backup_and_copy "$REPO_DIR/config/ghostty/themes/neon-light" "$HOME/.config/ghostty/themes/neon-light"
+backup_and_copy "$REPO_DIR/config/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 
 log "Installing Yazi plugins"
 ya pkg install
 
 # Depending on the installed version, the Homebrew LaunchAgents may still look
 # only at the legacy paths in the home directory.
-backup_and_link "$REPO_DIR/config/yabai/yabairc" "$HOME/.yabairc"
-backup_and_link "$REPO_DIR/config/skhd/skhdrc" "$HOME/.skhdrc"
+backup_and_copy "$REPO_DIR/config/yabai/yabairc" "$HOME/.yabairc"
+backup_and_copy "$REPO_DIR/config/skhd/skhdrc" "$HOME/.skhdrc"
 
 log "Compiling helper tools"
 mkdir -p "$HOME/.local/bin"

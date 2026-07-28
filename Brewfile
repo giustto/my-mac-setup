@@ -10,3 +10,5 @@ brew "yazi"
 brew "zoxide"
 
 cask "font-meslo-lg-nerd-font"
+cask "font-jetbrains-mono-nerd-font"
+cask "ghostty"
