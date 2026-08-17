@@ -133,11 +133,17 @@ installer again whenever you want to copy newer versions of the configs.
 
 Ghostty's config and custom themes are copied into `~/.config/ghostty`.
 The installer also copies `~/.yabairc` and `~/.skhdrc` for Homebrew LaunchAgent
-versions that still expect the older paths.
+versions that still expect the older paths, and `~/.tmux.conf` because tmux
+checks that legacy path *before* `~/.config/tmux/tmux.conf` — without it, a
+config left over from an older, non-XDG tmux setup would silently take
+precedence over the one this repo installs.
 
 Yazi's official `no-status` plugin is installed from `package.toml`, removing
-the file metadata row at the bottom. Lazygit's config is copied to its macOS
-path under `~/Library/Application Support/lazygit/`.
+the file metadata row at the bottom, via `ya pkg install`. If a previous
+plugin deployment was left in a locally-modified state, that command can fail;
+the installer retries once with `--discard` to reset it before giving up.
+Lazygit's config is copied to its macOS path under
+`~/Library/Application Support/lazygit/`.
 
 ### tmux shortcuts
 

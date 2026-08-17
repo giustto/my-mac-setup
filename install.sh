@@ -72,6 +72,12 @@ elif [[ -x /usr/local/bin/brew ]]; then
 fi
 
 log "Installing packages from Brewfile"
+# koekeishiya/formulae (yabai, skhd) is a third-party tap. Recent Homebrew
+# refuses to load formulae from a tap that hasn't been explicitly trusted, so
+# trust the one tap this Brewfile actually declares before bundling.
+if command -v brew >/dev/null 2>&1 && brew trust --help >/dev/null 2>&1; then
+  brew trust --taps koekeishiya/formulae
+fi
 brew bundle --file "$REPO_DIR/Brewfile"
 
 if [[ -z "$BACKUP_EXISTING_CONFIGS" ]]; then
@@ -110,10 +116,20 @@ backup_and_copy "$REPO_DIR/config/ghostty/themes/neon-light" "$HOME/.config/ghos
 backup_and_copy "$REPO_DIR/config/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
 
 log "Installing Yazi plugins"
-ya pkg install
+if ! ya pkg install; then
+  echo "ya pkg install failed, likely because a previously deployed plugin" >&2
+  echo "was locally modified. Retrying with --discard to reset it." >&2
+  if ! ya pkg install --discard; then
+    echo "ya pkg install still failed; continuing without Yazi plugins." >&2
+    echo "Run 'ya pkg install --discard' by hand once yazi is working." >&2
+  fi
+fi
 
-# Depending on the installed version, the Homebrew LaunchAgents may still look
-# only at the legacy paths in the home directory.
+# tmux reads ~/.tmux.conf before it ever looks at the XDG path, and yabai's
+# and skhd's Homebrew LaunchAgents may still look only at the legacy paths in
+# the home directory. Keep both locations in sync so a config left over from
+# an older, non-XDG setup can never silently shadow the one we just installed.
+backup_and_copy "$REPO_DIR/config/tmux/tmux.conf" "$HOME/.tmux.conf"
 backup_and_copy "$REPO_DIR/config/yabai/yabairc" "$HOME/.yabairc"
 backup_and_copy "$REPO_DIR/config/skhd/skhdrc" "$HOME/.skhdrc"
 

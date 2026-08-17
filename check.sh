@@ -32,6 +32,7 @@ check_path "$HOME/.zshenv"
 check_path "$HOME/.config/zsh/.zshrc"
 check_path "$HOME/.config/zsh/.p10k.zsh"
 check_path "$HOME/.config/tmux/tmux.conf"
+check_path "$HOME/.tmux.conf"
 check_path "$HOME/.config/ghostty/config.ghostty"
 check_path "$HOME/.config/ghostty/themes/neon-dark"
 check_path "$HOME/.config/ghostty/themes/neon-light"
@@ -43,6 +44,23 @@ check_path "$HOME/.yabairc"
 check_path "$HOME/.skhdrc"
 check_path "$HOME/.local/bin/visible-frame"
 check_path "$HOME/.local/bin/cursor-warp"
+
+printf '\nRepo independence\n'
+repo_linked=0
+for installed in "$HOME/.zshenv" "$HOME/.config/zsh/.zshrc" "$HOME/.config/tmux/tmux.conf" \
+  "$HOME/.tmux.conf" "$HOME/.config/yazi/init.lua" "$HOME/.config/yazi/package.toml" \
+  "$HOME/.yabairc" "$HOME/.skhdrc"; do
+  if [[ -L "$installed" ]]; then
+    printf 'LINKED  %s -> %s\n' "$installed" "$(readlink "$installed")"
+    repo_linked=1
+  fi
+done
+if (( repo_linked )); then
+  printf 'Some configs are symlinked back to the repo; deleting the clone would break them.\n'
+  failures=$((failures + 1))
+else
+  printf 'OK      All installed configs are real files; the repo clone can be deleted.\n'
+fi
 
 printf '\nServices\n'
 for service in com.asmvik.yabai com.koekeishiya.skhd; do
