@@ -108,18 +108,10 @@ settings. Installing a font does not make macOS select it automatically.
 | --- | --- |
 | `Ctrl + Alt + Left/Right` | Left or right half |
 | `Ctrl + Alt + Up/Down` | Top or bottom half |
-| `Alt + 7/9/1/3` | Screen quarters |
 | `Alt + C` | Center the active window |
 | `Alt + Enter` | Toggle native fullscreen |
 | `Alt + J/K` | Focus the previous or next Space |
 | `Alt + Shift + Left/Right` | Send the window to another display |
-| `Alt + Shift + H/L` | Send the window to the previous or next Space |
-
-The last shortcut requires yabai's scripting addition and a partially disabled
-System Integrity Protection configuration. The installer deliberately leaves
-that decision alone. Everything else works without changing SIP. If you want
-Space-moving support, follow the upstream
-[yabai scripting addition guide](https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)).
 
 ## Where things live
 

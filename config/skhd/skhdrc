@@ -8,15 +8,6 @@ ctrl + alt - up    : $HOME/.local/bin/yabai -m window --grid 2:1:0:0:1:1
 ctrl + alt - down  : $HOME/.local/bin/yabai -m window --grid 2:1:0:1:1:1
 
 #
-# Window quarters (number row, no numeric keypad required)
-#
-
-alt - 7 : $HOME/.local/bin/yabai -m window --grid 2:2:0:0:1:1
-alt - 9 : $HOME/.local/bin/yabai -m window --grid 2:2:1:0:1:1
-alt - 1 : $HOME/.local/bin/yabai -m window --grid 2:2:0:1:1:1
-alt - 3 : $HOME/.local/bin/yabai -m window --grid 2:2:1:1:1:1
-
-#
 # Center window
 #
 
@@ -42,14 +33,6 @@ alt - return : $HOME/.local/bin/yabai -m window --toggle native-fullscreen
 
 alt - j : $HOME/.local/bin/yabai -m space --focus prev && $HOME/.local/bin/yabai -m window --focus first
 alt - k : $HOME/.local/bin/yabai -m space --focus next && $HOME/.local/bin/yabai -m window --focus first
-
-#
-# Send window to previous / next space
-# Requires the yabai scripting addition (partial SIP disable).
-#
-
-alt + shift - h : $HOME/.local/bin/yabai -m window --space prev
-alt + shift - l : $HOME/.local/bin/yabai -m window --space next
 
 #
 # Send window to previous / next display
